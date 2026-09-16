@@ -1,7 +1,6 @@
 package co.wethinkcode.logisticsconnect.repository;
 
 import co.wethinkcode.logisticsconnect.db.DatabaseConfig;
-import co.wethinkcode.logisticsconnect.model.dto.IngestionResponse;
 import co.wethinkcode.logisticsconnect.model.entity.Ingestion;
 
 import java.sql.Connection;
@@ -55,7 +54,7 @@ public class IngestionRepository {
         }
     }
 
-    public IngestionResponse getByHubId(String hubId) {
+    public Ingestion getByHubId(String hubId) {
         String query = """
                 SELECT hub_id, province, sorting_center, is_active
                 FROM ingestion
@@ -74,7 +73,7 @@ public class IngestionRepository {
         }
     }
 
-    public List<IngestionResponse> getByProvince(String province) {
+    public List<Ingestion> getByProvince(String province) {
         String query = """
                 SELECT hub_id, province, sorting_center, is_active
                 FROM ingestion
@@ -83,7 +82,7 @@ public class IngestionRepository {
         return queryAll(query, province);
     }
 
-    public List<IngestionResponse> getBySortingCenter(String sortingCenter) {
+    public List<Ingestion> getBySortingCenter(String sortingCenter) {
         String query = """
                 SELECT hub_id, province, sorting_center, is_active
                 FROM ingestion
@@ -92,7 +91,7 @@ public class IngestionRepository {
         return queryAll(query, sortingCenter);
     }
 
-    public List<IngestionResponse> getAllActive() {
+    public List<Ingestion> getAllActive() {
         String query = """
                 SELECT hub_id, province, sorting_center, is_active
                 FROM ingestion
@@ -101,7 +100,7 @@ public class IngestionRepository {
         return queryAll(query);
     }
 
-    public List<IngestionResponse> getAll() {
+    public List<Ingestion> getAll() {
         String query = """
                 SELECT hub_id, province, sorting_center, is_active
                 FROM ingestion
@@ -109,8 +108,8 @@ public class IngestionRepository {
         return queryAll(query);
     }
 
-    private List<IngestionResponse> queryAll(String query, String... params) {
-        List<IngestionResponse> results = new ArrayList<>();
+    private List<Ingestion> queryAll(String query, String... params) {
+        List<Ingestion> results = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             for (int i = 0; i < params.length; i++) {
                 statement.setString(i + 1, params[i]);
@@ -126,9 +125,8 @@ public class IngestionRepository {
         }
     }
 
-    private IngestionResponse mapRow(ResultSet resultSet) throws SQLException {
-        return new IngestionResponse(
-                null,
+    private Ingestion mapRow(ResultSet resultSet) throws SQLException {
+        return new Ingestion(
                 resultSet.getString("hub_id"),
                 resultSet.getString("province"),
                 resultSet.getString("sorting_center"),

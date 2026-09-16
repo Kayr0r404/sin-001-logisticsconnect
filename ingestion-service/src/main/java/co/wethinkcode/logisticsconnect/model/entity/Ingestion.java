@@ -1,19 +1,19 @@
 package co.wethinkcode.logisticsconnect.model.entity;
 
+import java.util.Objects;
+
 public class Ingestion {
-    private UUID id;
     private String hubId;
-    private String Province;
+    private String province;
     private  String sortingCenter;
     private boolean isActive;
 
     public Ingestion() {
     }
 
-    public Ingestion(UUID id, String hubId, String province, String sortingCenter, boolean isActive) {
-        this.id = id;
+    public Ingestion( String hubId, String province, String sortingCenter, boolean isActive) {
         this.hubId = hubId;
-        Province = province;
+        this.province = province;
         this.sortingCenter = sortingCenter;
         this.isActive = isActive;
     }
@@ -27,11 +27,11 @@ public class Ingestion {
     }
 
     public String getProvince() {
-        return Province;
+        return province;
     }
 
     public void setProvince(String province) {
-        Province = province;
+        province = province;
     }
 
     public String getSortingCenter() {
@@ -50,33 +50,24 @@ public class Ingestion {
         isActive = active;
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object object) {
         if (object == null || getClass() != object.getClass()) return false;
         if (!super.equals(object)) return false;
         Ingestion ingestion = (Ingestion) object;
-        return isActive == ingestion.isActive && java.util.Objects.equals(id, ingestion.id) && java.util.Objects.equals(hubId, ingestion.hubId) && java.util.Objects.equals(Province, ingestion.Province) && java.util.Objects.equals(sortingCenter, ingestion.sortingCenter);
+        return isActive == ingestion.isActive && java.util.Objects.equals(hubId, ingestion.hubId) && java.util.Objects.equals(province, ingestion.province) && java.util.Objects.equals(sortingCenter, ingestion.sortingCenter);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id, hubId, Province, sortingCenter, isActive);
+        return Objects.hash(super.hashCode(), hubId, province, sortingCenter, isActive);
     }
 
     @Override
     public java.lang.String toString() {
         return "Ingestion{" +
-                "id=" + id +
                 ", hubId='" + hubId + '\'' +
-                ", Province='" + Province + '\'' +
+                ", Province='" + province + '\'' +
                 ", sortingCenter='" + sortingCenter + '\'' +
                 ", isActive=" + isActive +
                 '}';

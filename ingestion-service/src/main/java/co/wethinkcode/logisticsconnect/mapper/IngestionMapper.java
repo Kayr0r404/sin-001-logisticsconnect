@@ -8,7 +8,6 @@ public class IngestionMapper {
 
     public static IngestionResponse toDto(Ingestion ingestion) {
         return new IngestionResponse(
-                ingestion.getId(),
                 ingestion.getHubId(),
                 ingestion.getProvince(),
                 ingestion.getSortingCenter(),
@@ -18,7 +17,6 @@ public class IngestionMapper {
 
     public static Ingestion fromDto(IngestionRequest request) {
         return new Ingestion(
-                null,
                 request.hubId(),
                 request.province(),
                 request.sortingCenter(),
