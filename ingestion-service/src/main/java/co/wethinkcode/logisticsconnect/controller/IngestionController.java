@@ -14,4 +14,5 @@ public class IngestionController {
     public void registerRoutes(Javalin app) {
         app.get("/hubs", ctx -> ctx.json(service.getAll()));
     }
+
 }
