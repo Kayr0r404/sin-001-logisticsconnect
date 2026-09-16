@@ -1,25 +1,28 @@
 package co.wethinkcode.logisticsconnect.mapper;
 
+import co.wethinkcode.logisticsconnect.model.dto.IngestionRequest;
+import co.wethinkcode.logisticsconnect.model.dto.IngestionResponse;
+import co.wethinkcode.logisticsconnect.model.entity.Ingestion;
+
 public class IngestionMapper {
 
-    public static IngestionDto toDto(Ingestion ingestion) {
-        return new UserDto(
+    public static IngestionResponse toDto(Ingestion ingestion) {
+        return new IngestionResponse(
                 ingestion.getId(),
                 ingestion.getHubId(),
                 ingestion.getProvince(),
                 ingestion.getSortingCenter(),
-                igestion.isActive()
+                ingestion.isActive()
         );
-
     }
 
-    public static Ingestion fromDto(IngestionDto ingestionDto) {
-        return new Ingetion(
-                id=ingestionDto.id,
-                hubId = ingestionDto.hubId,
-                province = ingestionDto.province,
-                sortingCenter = ingestionDto.sortingCenter,
-                isActive = ingestionDto.isActive
+    public static Ingestion fromDto(IngestionRequest request) {
+        return new Ingestion(
+                null,
+                request.hubId(),
+                request.province(),
+                request.sortingCenter(),
+                request.isActive()
         );
     }
 }
