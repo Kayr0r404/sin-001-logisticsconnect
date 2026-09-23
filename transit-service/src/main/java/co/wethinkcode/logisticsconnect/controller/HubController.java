@@ -12,30 +12,6 @@ public class HubController {
     }
 
     public void registerRoutes(Javalin app) {
-        app.get("/hubs/province/{province}", ctx -> ctx.json(
-                service.getByProvince(
-                        ctx.pathParam("province")
-                )
-        ));
-
-        app.get("/hubs/{hubId}", ctx -> ctx.json(
-                service.getByHubId(
-                        ctx.pathParam("hubId")
-                )
-        ));
-
-        app.get("/sorting-center/{sortingCenter}",ctx-> ctx.json(
-                service.getBySortingCenter(
-                        ctx.pathParam("sortingCenter")
-                )
-        ));
-
-        app.get("/hub/active", ctx -> ctx.json(
-                service.getAllActive()
-        ));
-
-        app.get("/hubs", ctx -> ctx.json(service.getAll()));
-
         app.get("/health", ctx -> ctx.result("OK"));
     }
 

@@ -1,27 +1,19 @@
 package co.wethinkcode.logisticsconnect.mapper;
 
-import co.wethinkcode.logisticsconnect.model.dto.*;
-import co.wethinkcode.logisticsconnect.model.entity.Hub;
+import co.wethinkcode.logisticsconnect.model.dto.HubRequest;
+import co.wethinkcode.logisticsconnect.model.dto.HubResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HubMapper {
 
-    public static HubResponse toDto(Hub ingestion) {
-        return new HubResponse(
-                ingestion.getHubId(),
-                ingestion.getProvince(),
-                ingestion.getSortingCenter(),
-                ingestion.getStage(),
-                ingestion.isActive()
-        );
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    public static String jsonStringResponse(HubResponse ingestion) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(ingestion);
     }
 
-    public static Hub fromDto(HubRequest request) {
-        return new Hub(
-                request.hubId(),
-                request.province(),
-                request.sortingCenter(),
-                request.stage(),
-                request.isActive()
-        );
+    public static HubRequest jsonStringRequest(String request) throws JsonProcessingException {
+        return objectMapper.readValue(request, HubRequest.class);
     }
 }

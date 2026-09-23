@@ -1,14 +1,17 @@
 package co.wethinkcode.logisticsconnect.service;
 
-import co.wethinkcode.logisticsconnect.mapper.HubMapper;
-import co.wethinkcode.logisticsconnect.model.dto.*;
+import co.wethinkcode.logisticsconnect.model.dto.HubResponse;
 import co.wethinkcode.logisticsconnect.model.entity.Hub;
 import co.wethinkcode.logisticsconnect.repository.HubRepository;
 
-import java.io.IOException;
-import java.util.List;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Optional;
 
 public class HubService {
+
+    private static final long BASE_TRANSIT_MINUTES = 120;
+    private static final long DELAY_MINUTES_PER_STAGE = 30;
 
     private final HubRepository repository;
 
@@ -16,55 +19,23 @@ public class HubService {
         this.repository = repository;
     }
 
-    public List<HubResponse> getAll() throws IOException, InterruptedException {
-        return repository.getAll().stream()
-                .map(HubMapper::toDto)
-                .toList();
+    /**
+     * Estimated arrival = now + base transit time + per-stage delay.
+     * Stage 0 is on time; each extra delay stage adds DELAY_MINUTES_PER_STAGE.
+     */
+    public Optional<HubResponse> calculateEta(String hubId, int delayStage) {
+        Hub hub = repository.getByHubId(hubId);
+        if (hub == null) {
+            return Optional.empty();
+        }
+
+        long minutes = BASE_TRANSIT_MINUTES + Math.max(delayStage, 0) * DELAY_MINUTES_PER_STAGE;
+        String estimatedTimeArrival = Instant.now().plus(Duration.ofMinutes(minutes)).toString();
+
+        return Optional.of(new HubResponse(hubId, estimatedTimeArrival));
     }
 
-    public List<HubResponse> getAllActive() {
-        return repository.getAllActive().stream()
-                .map(HubMapper::toDto)
-                .toList();
+    public void updateStage(String hubId, int stage) {
+        repository.updateStage(hubId, stage);
     }
-
-    public List<HubResponse> getByProvince(String province) {
-
-        List<Hub> records = repository.getByProvince(province);
-
-        return records.stream()
-                .map(record -> new HubResponse(
-                        record.getHubId(),
-                        record.getProvince(),
-                        record.getSortingCenter(),
-                        record.getStage(),
-                        record.isActive()
-                ))
-                .toList();
-    }
-
-    public List<HubResponse> getBySortingCenter(String center) {
-        List<Hub> records = repository.getBySortingCenter(center);
-
-        return records.stream()
-                .map(record -> new HubResponse(
-                        record.getHubId(),
-                        record.getProvince(),
-                        record.getSortingCenter(),
-                        record.getStage(),
-                        record.isActive()
-                ))
-                .toList();
-    }
-
-    public HubResponse getByHubId(String id) {
-        Hub result = repository.getByHubId(id);
-
-        return HubMapper.toDto(result);
-    }
-
-    public void save(HubRequest request) {
-        repository.save(HubMapper.fromDto(request));
-    }
-
 }

@@ -11,16 +11,19 @@ public class Hub {
     private int stage;
     @JsonProperty("isActive")
     private boolean isActive;
+    private String timestamp;
 
     public Hub() {
     }
 
-    public Hub(String hubId, String province, String sortingCenter, int stage,boolean isActive) {
+    public Hub(String hubId, String province, String sortingCenter, int stage,boolean isActive, String timestamp) {
         this.hubId = hubId;
         this.province = province;
         this.sortingCenter = sortingCenter;
         this.isActive = isActive;
         this.stage = stage;
+        this.timestamp = timestamp;
+
     }
 
     public String getHubId() {
@@ -45,6 +48,14 @@ public class Hub {
 
     public void setSortingCenter(String sortingCenter) {
         this.sortingCenter = sortingCenter;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String time) {
+        this.timestamp = time;
     }
 
     @Override
