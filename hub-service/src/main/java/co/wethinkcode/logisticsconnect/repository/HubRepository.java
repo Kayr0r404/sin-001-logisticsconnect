@@ -34,7 +34,7 @@ public class HubRepository {
     }
 
     public Hub getByHubId(String hubId) {
-        return null;
+        return hubs.get(hubId);
     }
 
     public List<Hub> getByProvince(String province) {

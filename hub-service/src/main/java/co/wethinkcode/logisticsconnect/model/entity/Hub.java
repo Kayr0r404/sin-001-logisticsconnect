@@ -8,17 +8,19 @@ public class Hub {
     private String hubId;
     private String province;
     private  String sortingCenter;
+    private int stage;
     @JsonProperty("isActive")
     private boolean isActive;
 
     public Hub() {
     }
 
-    public Hub(String hubId, String province, String sortingCenter, boolean isActive) {
+    public Hub(String hubId, String province, String sortingCenter, int stage,boolean isActive) {
         this.hubId = hubId;
         this.province = province;
         this.sortingCenter = sortingCenter;
         this.isActive = isActive;
+        this.stage = stage;
     }
 
     public String getHubId() {
@@ -45,6 +47,29 @@ public class Hub {
         this.sortingCenter = sortingCenter;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Hub hub = (Hub) o;
+        return stage == hub.stage && isActive == hub.isActive && Objects.equals(hubId, hub.hubId) && Objects.equals(province, hub.province) && Objects.equals(sortingCenter, hub.sortingCenter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hubId, province, sortingCenter, stage, isActive);
+    }
+
+    @Override
+    public String toString() {
+        return "Hub{" +
+                "hubId='" + hubId + '\'' +
+                ", province='" + province + '\'' +
+                ", sortingCenter='" + sortingCenter + '\'' +
+                ", stage=" + stage +
+                ", isActive=" + isActive +
+                '}';
+    }
+
     public boolean isActive() {
         return isActive;
     }
@@ -53,26 +78,11 @@ public class Hub {
         isActive = active;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
-        Hub ingestion = (Hub) object;
-        return isActive == ingestion.isActive && java.util.Objects.equals(hubId, ingestion.hubId) && java.util.Objects.equals(province, ingestion.province) && java.util.Objects.equals(sortingCenter, ingestion.sortingCenter);
+    public int getStage() {
+        return stage;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), hubId, province, sortingCenter, isActive);
-    }
-
-    @Override
-    public java.lang.String toString() {
-        return "Ingestion{" +
-                ", hubId='" + hubId + '\'' +
-                ", Province='" + province + '\'' +
-                ", sortingCenter='" + sortingCenter + '\'' +
-                ", isActive=" + isActive +
-                '}';
+    public void setStage(int stage) {
+        this.stage = stage;
     }
 }

@@ -1,8 +1,7 @@
 package co.wethinkcode.logisticsconnect.service;
 
 import co.wethinkcode.logisticsconnect.mapper.HubMapper;
-import co.wethinkcode.logisticsconnect.model.dto.HubRequest;
-import co.wethinkcode.logisticsconnect.model.dto.HubResponse;
+import co.wethinkcode.logisticsconnect.model.dto.*;
 import co.wethinkcode.logisticsconnect.model.entity.Hub;
 import co.wethinkcode.logisticsconnect.repository.HubRepository;
 
@@ -38,6 +37,7 @@ public class HubService {
                         record.getHubId(),
                         record.getProvince(),
                         record.getSortingCenter(),
+                        record.getStage(),
                         record.isActive()
                 ))
                 .toList();
@@ -51,6 +51,7 @@ public class HubService {
                         record.getHubId(),
                         record.getProvince(),
                         record.getSortingCenter(),
+                        record.getStage(),
                         record.isActive()
                 ))
                 .toList();

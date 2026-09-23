@@ -12,7 +12,7 @@ public class HubController {
     }
 
     public void registerRoutes(Javalin app) {
-        app.get("/hubs/{province}", ctx -> ctx.json(
+        app.get("/hubs/province/{province}", ctx -> ctx.json(
                 service.getByProvince(
                         ctx.pathParam("province")
                 )
@@ -24,7 +24,7 @@ public class HubController {
                 )
         ));
 
-        app.get("/hubs/{sortingCenter}",ctx-> ctx.json(
+        app.get("/sorting-center/{sortingCenter}",ctx-> ctx.json(
                 service.getBySortingCenter(
                         ctx.pathParam("sortingCenter")
                 )
