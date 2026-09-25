@@ -6,15 +6,28 @@ import java.io.IOException;
 import co.wethinkcode.logisticsconnect.controller.DelayController;
 import co.wethinkcode.logisticsconnect.repository.HubRepository;
 import co.wethinkcode.logisticsconnect.service.DelayService;
+import co.wethinkcode.logisticsconnect.mq.mytopic.Producer;
 import io.javalin.Javalin;
+
+import javax.jms.JMSException;
 
 public class DelayStageServiceApp {
 
     private static final String TOPIC_NAME = "package-status-topic";
 
-		public static void main(String[] args) throws IOException, InterruptedException, Exception {
+		public static void main(String[] args) throws Exception {
 			Javalin app = JavalinConfig.create();
 			app.start(7052);
+
+			Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+				try {
+					(new Producer(TOPIC_NAME)).close();
+				} catch (JMSException e) {
+					System.err.println("Failed to close MQ resources: " + e.getMessage());
+				} catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }));
 		}
 	}
 
